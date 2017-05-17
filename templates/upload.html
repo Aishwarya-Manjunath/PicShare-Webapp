@@ -1,0 +1,49 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="static/template.css">
+	<style>
+		#box{
+			position:absolute;
+			top:15rem;
+			left:16rem;
+			background-color:#0000b3;
+			border-radius:2rem;
+			width:50rem;
+			height:19rem;
+			color:white;
+			font-size:1.5em;
+		}
+	</style>
+</head>
+<body>
+<h1 id="heading" ><center>PicShare</center></h1>
+<br>
+<br>
+<div style="position:fixed;top:3rem;left:70rem;">
+	<form action="/gotohome" method="post">
+		<button id='profile' type="submit" name="gotohome" value='{{user}}'><img src="static/pictures/home.png" width="70em" height="70em" style=""></button>
+	</form>
+	
+	<div style="position:fixed;top:3rem;left:63rem;">
+	<form action="/newsfeed" method="post">
+		<button id='profile' type="submit" name="newsfeed" value='{{user}}'><img src="static/pictures/newsfeed.png" width="70em" height="70em" style=""></button>
+	</form>
+	</div>
+	
+	
+	</div>
+<center>
+<h2 style="font-size:2em;">Share Your Picture</h2>
+</center>
+<div id="box" >
+<form action="/upload_now" method="POST" enctype="multipart/form-data" style="position:absolute;top:7rem;left:14rem;"><center>
+<label>Upload picture:<input type="file" name="file" style="position:relative;left:1rem;font-size:0.9em;"/></label><br><br><br>
+<button type="submit" style="position:absolute;left:9rem;font-size:1.2em;">Upload</button></center>
+<br><br>
+{% if flag==1 %}
+	<p>UPLOAD AGAIN..ALLOWED EXTENSIONS ARE (.jpeg , .jpg , .png) </p>
+{% endif %}
+</form>
+</div>
+</body>
+</html>

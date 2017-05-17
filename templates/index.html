@@ -1,0 +1,49 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="static/template.css">
+</head>
+<body background="static/pictures/collage.jpg">
+<div style="position:fixed;top:0rem;width:100%;height:1.5rem;color:rgba(0,0,0,1);">
+<h1 id="heading" style="color:blue;position:fixed;top:0.5rem;left:40rem;">PicShare</h1>
+</div>
+<div id="boxes" style="position:absolute;top:9rem;left:5rem;background-color:#0000b3;border-radius:2rem;width:27rem;height:26rem;">
+<form action="/signup" method='POST'>
+<h1> <center>SIGNUP</center></h1><br>
+<center><label>Full Name: <input type="text" name="fname" placeholder="Full Name"></input>
+<br><br>
+<center><label>Date Of Birth: <input type="text" name="dob" placeholder="DOB"></input>
+<br><br>
+<center><label>User Name: <input type="text" name="uname" placeholder="UserName"></input>
+<br><br>
+<label>Email-Id:   <input type="text" style="position:relative;left:0.9em;" name="email" placeholder="Email-Id"></input>
+<br><br>
+<label>Password:      <input type="password" style="position:relative;left:0.5em;" name="pwd" placeholder="Password"></input>
+<br><br>
+<button type="submit" name="btn" value=1>Signup</button>
+<p style="color:red;">
+{% if exist==1 %}
+ Re-enter...User Name exists!!
+ {% endif %}
+ </p></center>
+</form>
+</div>
+<div style="position:absolute;top:11rem;left:48rem;background-color:#0000b3;border-radius:2rem;width:27rem;height:22rem;">
+<form action="/login" method='POST'>
+<h1> <center>LOGIN</center></h1><br><br><br>
+<center><label>User Name: <input type="text" name="uname" placeholder="UserName"></input>
+<br><br>
+<label>Password:   <input type="password" style="position:relative;left:0.4em;" name="pwd" placeholder="Password"></input>
+<br><br>
+<button type="submit" name="btn" value=2>Login</button>
+<p style="color:red;">
+{% if wpwd==1 %}
+ Wrong password!!
+ {% endif %}
+ {% if nouser==1 %}
+User Name doesnt exist!!
+ {% endif %}
+ </p></center>
+</form>
+</div>
+</body>
+</html>

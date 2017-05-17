@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="static/template.css">
+		<style>
+			#side_bar{
+				height:27em;
+				border: 2px solid black;
+				top:7em;
+			}
+			#image{
+				width:30em;
+				height:20em;
+				border-radius:2em;
+				border: 1em solid #0000b3;
+			
+			}
+			h2{
+				font-family: Times;
+				font-size: 3em;
+				position: relative;
+				left: 1em;			
+			
+}
+		</style>
+	</head>
+	<body>
+		<div style="position:fixed;top:3rem;left:3rem;">
+	<form action="/newsfeed" method="post">
+		<button id='profile' type="submit" name="newsfeed" value='{{user}}'><img src="static/pictures/newsfeed.png" width="70em" height="70em" style=""></button>
+	</form>
+	</div>
+		<h1 id="heading" ><center>PicShare</center></h1><br/><br/>
+	{% if flag==0 %}	
+	<div id="side_bar" style="width:7.5em;position:fixed;left:65rem;background-color:#0000b3;">
+		<div style="position:relative;top:0.7em;left:1rem;">
+			<form action='/my_friends' method='POST'>
+			<button type='submit' name='btn' value=3>
+				<img src="static/pictures/find_friends.png" width='60em' height='60em'>
+			</button>
+			</form>	
+		</div>
+		<hr  style="position:relative;top:1.4em;"/>
+		<div style="position:relative;top:2.1em;left:1rem;">
+			<form action="/frndreq" method="post">
+			<button type="submit" name="frndreq" value='{{user}}'>
+				<b><img src="static/pictures/request.png" width='40em' height='60em'>({{count}})</b>
+			</button>
+			</form>
+		</div>
+		<hr  style="position:relative;top:2.8em;"/>
+		<div style="position:relative;top:3.5rem;left:1rem;">
+			<form action="/uploadpage" method="post">
+			<button type="submit" name="uploadbtn" value='{{user}}'>
+				<img src="static/pictures/upload.jpeg" width='60em' height='60em'>
+			</button>
+			</form>
+		</div>
+		<hr style="position:relative;top:4.2em;"/>	
+		<div style="position:relative;top:4.9rem;left:1rem;">
+			<form action='/find_friends' method='POST'>
+			<button type='submit' name='btn' value=3>
+				<img src="static/pictures/find_friend.png" width='60em' height='60em'>
+			</button>
+			</form>	
+		</div>
+	</div>
+	<div style="position:absolute;top:3rem;left:70rem;">
+		<form action='/logout' method='POST'>
+			<button type='submit' name='btn'>Logout</button>
+		</form>	
+	</div>
+	{% else %}
+		<div style="position:fixed;top:3rem;left:70rem;">
+	<form action="/gotohome" method="post">
+		<button id='profile' type="submit" name="gotohome" value='{{user}}'><img src="static/pictures/home.png" width="70em" height="70em" style=""></button>
+	</form>
+	</div>
+	{% endif %}
+		<h2>{{user}}</h2>
+			<center>{% for x in online_users %}
+				<br/> <img id="image" src= '{{x[0]}}' width='200em' height='200em' ><br/>
+				<p>Uploaded at {{x[1]}}</p>
+				{% if likes_by_user[loop.index-1]==0 %}
+				<form action="/like" method='post'>
+				{% if flag==1 %}
+				<button type="submit" name="like" value='{{x[0]}}_1'>Likes({{likes[loop.index-1]}})</button>
+				{% else %}
+				<button type="submit" name="like" value='{{x[0]}}_0'>Likes({{likes[loop.index-1]}})</button>
+				{% endif %}
+				</form>
+				{% else %}
+				<br/>
+				<button style="color:blue;">Likes({{likes[loop.index-1]}})</button>
+				</br>
+				{% endif %}
+			{% endfor %}	
+			</center>
+	</body>
+</html>

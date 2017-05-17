@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="static/template.css">
+		<style>
+			#box{
+			border: 1em solid #0000b3;
+			height:7em;
+			width: 7em;
+			border-radius: 2em;
+			float:left;
+			margin:2em;
+		}
+		</style>
+	</head>
+	<body>
+		<h1 id="heading" ><center>PicShare</center></h1><br/><br/>
+		<center><h2> Find New Friends </h2></center>
+		<div style="position:fixed;top:3rem;left:70rem;">
+	<form action="/gotohome" method="post">
+		<button id='profile' type="submit" name="gotohome" value='{{user}}'><img src="static/pictures/home.png" width="70em" height="70em" style=""></button>
+	</form>
+	</div>
+	
+	<div style="position:fixed;top:3rem;left:63rem;">
+	<form action="/newsfeed" method="post">
+		<button id='profile' type="submit" name="newsfeed" value='{{user}}'><img src="static/pictures/newsfeed.png" width="70em" height="70em" style=""></button>
+	</form>
+	</div>
+	
+		<form action='/add_friend' method='POST'>
+		{% for x in request_list %}
+			
+		<div id="box">
+			<center>
+			<b style="position:relative;top:2em;">{{x}}</b>
+		<button type="submit" name="Send" value='{{x}}' style="background-color:#0000b3;color:white;position:relative;top:3.7em;">
+		Send Request</button>
+			</div>
+			</center>
+
+			
+		{% endfor %}
+		</form>
+	</body>
+</html>

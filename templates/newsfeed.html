@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="static/template.css">
+		<style>
+			#profile{
+				width:6em;
+				height:6em;
+			}
+			#image{
+				width:30em;
+				height:20em;
+				border-radius:2em;
+				border: 1em solid #0000b3;
+			
+			}
+		</style>
+	</head>
+	<body>
+	<h1 id="heading" ><center>PicShare</center></h1><br/><br/>
+	<div style="position:fixed;bottom:3rem;left:70rem;">
+	<form action="/gotohome" method="post">
+		<button id='profile' type="submit" name="gotohome" value='{{user}}'><img src="static/pictures/profile.png" width="70em" height="70em" ></button>
+	</form>
+	</div>
+	<div style="position:absolute;top:3rem;left:70rem;">
+	<form action="/logout" method="post">
+		<button type="submit" name="logout" value='{{user}}'>Logout</button>
+	</form>
+	</div>
+	<br>
+		
+			{% for x in l %}
+			
+				<div style="display:inline;">
+				<h4><b style="color:#0052cc;">{{x[0]}}</b> shared a photo <br/><br/>
+				{{x[2]}}</h4>
+				<center>
+				 <img id="image" src= '{{x[1]}}' width='200em' height='200em' ></center>
+				</div>
+				<br>
+				<center>
+				{% if likes_by_user[loop.index-1]==0 %}
+				<form action="/liken" method='post'>
+				<button type="submit" name="like" value='{{x[1]}}'>Likes({{likes[loop.index-1]}})</button>
+				</form>
+				{% else %}
+				<br/>
+				<button style="color:blue;">Likes({{likes[loop.index-1]}})</button>
+				</br>
+				{% endif %}
+				</center>
+				<hr>
+			{% endfor %}	
+			
+	</body>
+</html>
