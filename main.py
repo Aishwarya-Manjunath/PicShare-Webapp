@@ -62,7 +62,7 @@ def login():
 	if(correct_pwd['Password']==pwd):
 		global user
 		user=user1
-    		return redirect(url_for('newsfeed'))
+		return redirect(url_for('newsfeed'))
 	else:
 		return render_template('index.html',exist=0,wpwd=1,nouser=0)
 		
@@ -96,8 +96,8 @@ def newsfeed():
 				l[j+1]=temp
 	#print(l)
 	likes=[]
-    	likes_by_user=[]
-    	for i in range(0,len(l)):
+	likes_by_user=[]
+	for i in range(0,len(l)):
     		currl=mongo.db.liked_pic.find_one({'pic':l[i][1]})
     		print(currl)
     		if currl is not None:
@@ -110,7 +110,7 @@ def newsfeed():
     		else:
     			likes.append(0)
     			likes_by_user.append(0)
-    	return render_template('newsfeed.html',user=user,l=l,likes=likes,likes_by_user=likes_by_user)
+	return render_template('newsfeed.html',user=user,l=l,likes=likes,likes_by_user=likes_by_user)
 	#return render_template('newsfeed.html',user=user,l=l)
 
 @app.route('/gotohome',methods=['POST','GET'])
@@ -124,33 +124,33 @@ def homepage():
 	curr_user = mongo.db.pictures.find_one({'usr_name':user})
 	if curr_user is None:
 		return render_template('home.html',user=user,online_users=[[]],count=no_of_frnd_rqt,flag=0,likes=[],likes_by_user=[])
-    	user_pics=curr_user['pics']
-    	time_pic=curr_user['time']
-    	online_user=[]
-    	for i in range(len(user_pics)):
+	user_pics=curr_user['pics']
+	time_pic=curr_user['time']
+	online_user=[]
+	for i in range(len(user_pics)):
 		online_user.append([user_pics[i],time_pic[i]])
     	#print('curr_pics:',user_pics)
-    	likes=[]
-    	likes_by_user=[]
-    	for i in user_pics:
-    		currl=mongo.db.liked_pic.find_one({'pic':i})
-    		if currl is not None:
-    			likes.append(len(currl['liked_users']))
-    			if user in currl['liked_users']:
-    				likes_by_user.append(1)
-    			else:
-    				likes_by_user.append(0)
-    		else:
-    			likes.append(0)
-    			likes_by_user.append(0)
-    	return render_template('home.html',user=user,online_users=online_user,count=no_of_frnd_rqt,flag=0,likes=likes,likes_by_user=likes_by_user)
+	likes=[]
+	likes_by_user=[]
+	for i in user_pics:
+		currl=mongo.db.liked_pic.find_one({'pic':i})
+		if currl is not None:
+			likes.append(len(currl['liked_users']))
+			if user in currl['liked_users']:
+				likes_by_user.append(1)
+			else:
+				likes_by_user.append(0)
+		else:
+			likes.append(0)
+			likes_by_user.append(0)
+	return render_template('home.html',user=user,online_users=online_user,count=no_of_frnd_rqt,flag=0,likes=likes,likes_by_user=likes_by_user)
 	
 				
 @app.route('/frndreq',methods=['POST','GET'])
 def my_frnd_requests():
 	rqt=mongo.db.requests.find_one({'User_Name':user})
-  	all_frnd_rqt=rqt['rqt_usr']
-  	return render_template('frnd_request.html',user=user,all_requests=all_frnd_rqt)
+	all_frnd_rqt=rqt['rqt_usr']
+	return render_template('frnd_request.html',user=user,all_requests=all_frnd_rqt)
 	
 @app.route('/accept_frnd_req',methods=['POST','GET'])
 def accept_frnd_req():
@@ -159,8 +159,8 @@ def accept_frnd_req():
 	if(req_user[0:2]=='-1'):
 		req_user1=req_user[2:]
 		rqt=mongo.db.requests.find_one({'User_Name':user})
-    		frnd_rqt=rqt['rqt_usr']
-    		frnd_rqt.remove(req_user1)
+		frnd_rqt=rqt['rqt_usr']
+		frnd_rqt.remove(req_user1)
 		mongo.db.requests.update({'User_Name':user},{"$set":{'User_Name':user,'rqt_usr':frnd_rqt}})
 		curr=mongo.db.sent_request.find_one({'User_Name':req_user1})
 		if curr is not None:
@@ -174,30 +174,30 @@ def accept_frnd_req():
 	l.remove(user)
 	mongo.db.sent_request.update({'User_Name':req_user},{"$set":{'User_Name':req_user,'request':l}})
 	rqt=mongo.db.requests.find_one({'User_Name':user})
-    	frnd_rqt=rqt['rqt_usr']
-    	frnd_rqt.remove(req_user)
-    	mongo.db.requests.update({'User_Name':user},{"$set":{'User_Name':user,'rqt_usr':frnd_rqt}})
+	frnd_rqt=rqt['rqt_usr']
+	frnd_rqt.remove(req_user)
+	mongo.db.requests.update({'User_Name':user},{"$set":{'User_Name':user,'rqt_usr':frnd_rqt}})
     	
-    	rqt=mongo.db.requests.find_one({'User_Name':user})
-  	all_frnd_rqt=rqt['rqt_usr']
+	rqt=mongo.db.requests.find_one({'User_Name':user})
+	all_frnd_rqt=rqt['rqt_usr']
   	
-  	curr_user = mongo.db.friends.find_one({'User_Name':user})
+	curr_user = mongo.db.friends.find_one({'User_Name':user})
 	if curr_user is None:
 		mongo.db.friends.insert({"User_Name":user,'frnd_usr':[req_user]})
 	else:
 		old_frnd=curr_user['frnd_usr']
-    		old_frnd.append(req_user)
-    		mongo.db.friends.update({'User_Name':user},{"$set":{'User_Name':user,'frnd_usr':old_frnd}})
+		old_frnd.append(req_user)
+		mongo.db.friends.update({'User_Name':user},{"$set":{'User_Name':user,'frnd_usr':old_frnd}})
 		
 	curr1_user = mongo.db.friends.find_one({'User_Name':req_user})	
 	if curr1_user is None:
 		mongo.db.friends.insert({"User_Name":req_user,'frnd_usr':[user]})
 	else:
 		old_frnd1=curr1_user['frnd_usr']
-    		old_frnd1.append(user)
+		old_frnd1.append(user)
 		mongo.db.friends.update({'User_Name':req_user},{"$set":{'User_Name':req_user,'frnd_usr':old_frnd1}})
 	
-  	return render_template('frnd_request.html',user=user,all_requests=all_frnd_rqt)
+	return render_template('frnd_request.html',user=user,all_requests=all_frnd_rqt)
 
 @app.route('/uploadpage',methods=['POST','GET'])
 def goto_uploadpage():
@@ -207,33 +207,33 @@ def goto_uploadpage():
 @app.route('/myhome',methods=['POST','GET'])
 def myhome():
 	rqt=mongo.db.requests.find_one({'User_Name':user})
-    	no_of_frnd_rqt=len(rqt['rqt_usr'])
+	no_of_frnd_rqt=len(rqt['rqt_usr'])
     	#print('no_of_frnd_rqt=',no_of_frnd_rqt)
 	curr_user = mongo.db.pictures.find_one({'usr_name':user})
 	if curr_user is None:
 		return render_template('home.html',user=user,online_users=[[]],count=no_of_frnd_rqt,flag=0,likes=[],likes_by_user=[])
-    	user_pics=curr_user['pics']
-    	time_pic=curr_user['time']
-    	online_user=[]
-    	for i in range(len(user_pics)):
+	user_pics=curr_user['pics']
+	time_pic=curr_user['time']
+	online_user=[]
+	for i in range(len(user_pics)):
 		online_user.append([user_pics[i],time_pic[i]])
     	#print('curr_pics:',user_pics)
-    	likes=[]
-    	likes_by_user=[]
-    	for i in user_pics:
-    		currl=mongo.db.liked_pic.find_one({'pic':i})
-    		print("images:",i)
-    		if currl is not None:
-    			likes.append(len(currl['liked_users']))
-    			if user in currl['liked_users']:
-    				likes_by_user.append(1)
-    			else:
-    				likes_by_user.append(0)
-    		else:
-    			likes.append(0)
-    			likes_by_user.append(0)
-    	print("jil:",likes,likes_by_user)
-    	return render_template('home.html',user=user,online_users=online_user,count=no_of_frnd_rqt,flag=0,likes=likes,likes_by_user=likes_by_user)
+	likes=[]
+	likes_by_user=[]
+	for i in user_pics:
+		currl=mongo.db.liked_pic.find_one({'pic':i})
+		print("images:",i)
+		if currl is not None:
+			likes.append(len(currl['liked_users']))
+			if user in currl['liked_users']:
+				likes_by_user.append(1)
+			else:
+				likes_by_user.append(0)
+		else:
+			likes.append(0)
+			likes_by_user.append(0)
+	print("jil:",likes,likes_by_user)
+	return render_template('home.html',user=user,online_users=online_user,count=no_of_frnd_rqt,flag=0,likes=likes,likes_by_user=likes_by_user)
 	
 @app.route('/upload_now',methods=['POST','GET'])
 def upload_now():
@@ -310,20 +310,20 @@ def viewprofile():
 	global ot
 	ot=other_user
 	rqt=mongo.db.requests.find_one({'User_Name':other_user})
-    	no_of_frnd_rqt=len(rqt['rqt_usr'])
+	no_of_frnd_rqt=len(rqt['rqt_usr'])
     	#print('no_of_frnd_rqt=',no_of_frnd_rqt)
 	curr_user = mongo.db.pictures.find_one({'usr_name':other_user})
 	if curr_user is None:
 		return render_template('home.html',user=other_user,online_users=[[]],count=no_of_frnd_rqt,flag=1,likes=[],likes_by_user=[])
-    	user_pics=curr_user['pics']
-    	time_pic=curr_user['time']
-    	online_user=[]
-    	for i in range(len(user_pics)):
+	user_pics=curr_user['pics']
+	time_pic=curr_user['time']
+	online_user=[]
+	for i in range(len(user_pics)):
 		online_user.append([user_pics[i],time_pic[i]])
     	#print('curr_pics:',user_pics)
-    	likes=[]
-    	likes_by_user=[]
-    	for i in user_pics:
+	likes=[]
+	likes_by_user=[]
+	for i in user_pics:
     		currl=mongo.db.liked_pic.find_one({'pic':i})
     		if currl is not None:
     			likes.append(len(currl['liked_users']))
@@ -334,7 +334,7 @@ def viewprofile():
     		else:
     			likes.append(0)
     			likes_by_user.append(0)
-    	return render_template('home.html',user=other_user,online_users=online_user,count=no_of_frnd_rqt,flag=1,likes=likes,likes_by_user=likes_by_user)
+	return render_template('home.html',user=other_user,online_users=online_user,count=no_of_frnd_rqt,flag=1,likes=likes,likes_by_user=likes_by_user)
 	
     	
     	
@@ -365,20 +365,20 @@ def viewprofile1():
 	other_user=ot
 	print("other_us:",other_user)
 	rqt=mongo.db.requests.find_one({'User_Name':other_user})
-    	no_of_frnd_rqt=len(rqt['rqt_usr'])
+	no_of_frnd_rqt=len(rqt['rqt_usr'])
     	#print('no_of_frnd_rqt=',no_of_frnd_rqt)
 	curr_user = mongo.db.pictures.find_one({'usr_name':other_user})
 	if curr_user is None:
 		return render_template('home.html',user=other_user,online_users=[[]],count=no_of_frnd_rqt,flag=1,likes=[],likes_by_user=[])
-    	user_pics=curr_user['pics']
-    	time_pic=curr_user['time']
-    	online_user=[]
-    	for i in range(len(user_pics)):
+	user_pics=curr_user['pics']
+	time_pic=curr_user['time']
+	online_user=[]
+	for i in range(len(user_pics)):
 		online_user.append([user_pics[i],time_pic[i]])
     	#print('curr_pics:',user_pics)
-    	likes=[]
-    	likes_by_user=[]
-    	for i in user_pics:
+	likes=[]
+	likes_by_user=[]
+	for i in user_pics:
     		currl=mongo.db.liked_pic.find_one({'pic':i})
     		if currl is not None:
     			likes.append(len(currl['liked_users']))
@@ -389,7 +389,7 @@ def viewprofile1():
     		else:
     			likes.append(0)
     			likes_by_user.append(0)
-    	return render_template('home.html',user=other_user,online_users=online_user,count=no_of_frnd_rqt,flag=1,likes=likes,likes_by_user=likes_by_user)
+	return render_template('home.html',user=other_user,online_users=online_user,count=no_of_frnd_rqt,flag=1,likes=likes,likes_by_user=likes_by_user)
 
 		
 @app.route('/liken',methods=['POST','GET'])
