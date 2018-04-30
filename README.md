@@ -1,5 +1,5 @@
 # PicShare-Webapp
-An Image sharing web app</n>
+A Simple image sharing web app</n>
 
 Done using flask, HTML , CSS.
 
@@ -7,6 +7,6 @@ Done using flask, HTML , CSS.
 It includes features such as login, upload pictures, send friend requests and like your friends pictures.
 
 
-To run the code:</n>
+<b>To run the code:</b></n>
 
 python3 main.py
